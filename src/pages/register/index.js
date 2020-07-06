@@ -2,8 +2,8 @@ import React from 'react';
 
 // import { Container } from './styles';
 
-function Login() {
+function Register() {
   return <div />;
 }
 
-export default Login;
+export default Register;
