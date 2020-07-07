@@ -13,7 +13,7 @@ import axios from 'axios';
       const token = window.localStorage.getItem("token");
   
       if (token !== null) {
-        history.push("/post");
+        history.push("/posts");
       }
     }, [history]);
   
@@ -36,7 +36,7 @@ import axios from 'axios';
         `,body)
         window.localStorage.setItem("token", response.data.token);
         alert("Sucess")
-        history.push("/post");
+        history.push("/posts");
         
   
       } catch (error) {
