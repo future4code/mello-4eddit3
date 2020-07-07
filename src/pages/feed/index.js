@@ -22,6 +22,9 @@ const Feed = () => {
     title: '',
   });
 
+  //state to update the page when creating a new post:
+  const [reload, setReload] = useState([]);
+
   const history = useHistory();
 
   //////////TOKEN VALIDATION
@@ -47,12 +50,7 @@ const Feed = () => {
 
   useEffect(() => {
     axios
-      .get(`${baseUrl}`, {
-        headers: {
-          Authorization:
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImV5dEdONkVTcGlVdDgweFgwbzBWIiwidXNlcm5hbWUiOiJkYXJ2YXMiLCJlbWFpbCI6InBlZHJvLmRhcnZhc0BnbWFpbC5jb20iLCJpYXQiOjE1OTQwNzQ4ODN9.di53KPU1eEqj6puLM4crxO6jacyt9-5KY_FvkahY9Ws',
-        },
-      })
+      .get(`${baseUrl}`, axiosConfig)
       .then((response) => {
         setPosts(response.data.posts);
         console.log(response.data.posts);
@@ -60,7 +58,7 @@ const Feed = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  }, [reload]);
 
   /////////POST CREATE
 
@@ -76,6 +74,11 @@ const Feed = () => {
       const response = await axios.post(`${baseUrl}`, body, axiosConfig);
       console.log(response);
       alert('Post criado com sucesso!');
+      setForm({
+        text: '',
+        title: '',
+      });
+      setReload(reload + 1);
     } catch (error) {
       console.log(error);
     }
@@ -84,11 +87,12 @@ const Feed = () => {
   const getPosts = posts.map((post) => {
     return (
       <div>
-        <h3>{post.username}</h3>
+        <h4>{post.username}</h4>
+        <h5>{post.title}</h5>
         <p onClick={() => goToPostDetails(post.id)}>{post.text}</p>
         <div>
-          <span>{post.votesCount}</span>
-          <span>{post.commentsCount}</span>
+          <span>{post.votesCount} curtidas</span>
+          <span>{post.commentsCount} comentários</span>
         </div>
 
         <hr />
@@ -98,23 +102,25 @@ const Feed = () => {
 
   return (
     <div>
-      <form>
+      <form onSubmit={createNewPost}>
         <label>Escreva seu posto:</label>
-        <input
-          name="text"
-          value={form.text}
-          onChange={handleInputChange}
-          type="text"
-          required
-          placeholder="Escreva o texto do seu post"
-        />
+
         <input
           name="title"
           value={form.title}
           onChange={handleInputChange}
           type="text"
           required
-          placeholder="Escreva o título do seu post"
+          placeholder="Título do seu post"
+        />
+
+        <input
+          name="text"
+          value={form.text}
+          onChange={handleInputChange}
+          type="text"
+          required
+          placeholder="Texto do seu post"
         />
         <button>Postar</button>
       </form>
