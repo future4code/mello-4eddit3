@@ -14,7 +14,7 @@ const axiosConfig = {
 
 // const token = localStorage.getItem("token");
 
-const feed = () => {
+const Feed = () => {
   const [posts, setPosts] = useState([]);
 
   const [form, setForm] = useState({
@@ -123,4 +123,4 @@ const feed = () => {
   );
 };
 
-export default feed;
+export default Feed;
