@@ -4,6 +4,10 @@ import axios from 'axios';
 
 // import { Container } from './styles';
 
+
+const baseUrl = `https://us-central1-labenu-apis.cloudfunctions.net/labEddit/login
+`
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,10 +36,7 @@ const Login = () => {
     };
 
     try {
-      const response = await axios.post(
-        `https://us-central1-labenu-apis.cloudfunctions.net/labEddit/login
-        `,
-        body
+      const response = await axios.post(baseUrl, body
       );
       window.localStorage.setItem('token', response.data.token);
       alert('Sucess');
@@ -43,6 +44,8 @@ const Login = () => {
     } catch (error) {
       console.log(error);
       alert('Login error');
+
+
     }
   };
 
@@ -57,5 +60,6 @@ const Login = () => {
     </>
   );
 };
+
 
 export default Login;

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
 
+import LikePost from '../../components/LikePost';
+
 const baseUrl =
   'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts';
 
@@ -21,6 +23,9 @@ const Feed = () => {
     text: '',
     title: '',
   });
+
+  //state to update the page when creating a new post:
+  const [reload, setReload] = useState([]);
 
   const history = useHistory();
 
@@ -57,10 +62,12 @@ const Feed = () => {
       .catch((error) => {
         console.log(error);
       });
+
   };
   useEffect(() => {
     getPosts();
   }, []);
+
 
   /////////POST CREATE
 
@@ -88,6 +95,7 @@ const Feed = () => {
 
   const renderPosts = posts.map((post) => {
     return (
+
       <div key={post.id}>
         <Link to={`/posts/${post.id}`}>
           <div>
@@ -99,6 +107,7 @@ const Feed = () => {
               <span>{post.votesCount} curtidas</span>
               <span>{post.commentsCount} comentários</span>
             </div>
+              <LikePost idPost={post.id}/>
           </div>
         </Link>
         <hr />
@@ -130,7 +139,9 @@ const Feed = () => {
         />
         <button>Postar</button>
       </form>
+
       {renderPosts}
+
     </div>
   );
 };
