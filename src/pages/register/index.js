@@ -6,11 +6,11 @@ import useInputValue from '../../Hooks/useInputs';
 // import { Container } from './styles';
 
 function Register() {
-  RedirectLogged();
   const [name, setName] = useInputValue('');
   const [email, setEmail] = useInputValue('');
   const [password, setPassword] = useInputValue('');
 
+  RedirectLogged();
   const handleCreateUser = (e) => {
     e.preventDefault();
     RegisterUser(name, email, password);

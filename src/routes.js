@@ -1,13 +1,10 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Feed from './pages/feed';
-
 
 import Feed from './pages/feed';
 import Register from './pages/register';
 
 import Login from './pages/login';
-
 
 export default function Routes() {
   return (

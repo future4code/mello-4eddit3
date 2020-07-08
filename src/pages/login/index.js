@@ -39,7 +39,7 @@ const Login = () => {
       );
       window.localStorage.setItem('token', response.data.token);
       alert('Sucess');
-      history.push('/post');
+      history.push('/posts');
     } catch (error) {
       console.log(error);
       alert('Login error');
