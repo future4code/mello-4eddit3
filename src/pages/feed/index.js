@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
 
 import LikePost from '../../components/LikePost';
@@ -38,9 +38,11 @@ const Feed = () => {
   // }, [history]);
 
   //////////GO TO '/post:id' ROUTE
-  const goToPostDetails = (postId) => {
-    history.push(`/post:id/${postId}`);
-  };
+  // const goToPostDetails = (postId) => {
+  //   let a = history.push(`/posts/${postId}`);
+
+  //   console.log(a);
+  // };
 
   ////////INPUTS VALUES
   const handleInputChange = (event) => {
@@ -50,7 +52,7 @@ const Feed = () => {
 
   ////////GET POSTS
 
-  useEffect(() => {
+  const getPosts = () => {
     axios
       .get(`${baseUrl}`, axiosConfig)
       .then((response) => {
@@ -60,7 +62,12 @@ const Feed = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [reload]);
+
+  };
+  useEffect(() => {
+    getPosts();
+  }, []);
+
 
   /////////POST CREATE
 
@@ -74,30 +81,35 @@ const Feed = () => {
 
     try {
       const response = await axios.post(`${baseUrl}`, body, axiosConfig);
-      console.log(response);
+      // console.log(response);
       alert('Post criado com sucesso!');
       setForm({
         text: '',
         title: '',
       });
-      setReload(reload + 1);
+      getPosts();
     } catch (error) {
       console.log(error);
     }
   };
 
-  const getPosts = posts.map((post) => {
+  const renderPosts = posts.map((post) => {
     return (
-      <div>
-        <h4>{post.username}</h4>
-        <h5>{post.title}</h5>
-        <p onClick={() => goToPostDetails(post.id)}>{post.text}</p>
-        <div>
-          <span>{post.votesCount} curtidas</span>
-          <span>{post.commentsCount} comentários</span>
-        </div>
-        <LikePost idPost={post.id} />
 
+      <div key={post.id}>
+        <Link to={`/posts/${post.id}`}>
+          <div>
+            <h4>{post.username}</h4>
+
+            <h5>{post.title}</h5>
+            <p>{post.text}</p>
+            <div>
+              <span>{post.votesCount} curtidas</span>
+              <span>{post.commentsCount} comentários</span>
+            </div>
+              <LikePost idPost={post.id}/>
+          </div>
+        </Link>
         <hr />
       </div>
     );
@@ -127,8 +139,9 @@ const Feed = () => {
         />
         <button>Postar</button>
       </form>
-      {getPosts}
-      
+
+      {renderPosts}
+
     </div>
   );
 };

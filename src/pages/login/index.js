@@ -4,6 +4,7 @@ import axios from 'axios';
 
 // import { Container } from './styles';
 
+
 const baseUrl = `https://us-central1-labenu-apis.cloudfunctions.net/labEddit/login
 `
 
@@ -39,10 +40,11 @@ const Login = () => {
       );
       window.localStorage.setItem('token', response.data.token);
       alert('Sucess');
-      history.push('/post');
+      history.push('/posts');
     } catch (error) {
       console.log(error);
       alert('Login error');
+
 
     }
   };
@@ -57,6 +59,7 @@ const Login = () => {
       <button>Registrar</button>
     </>
   );
-}
+};
+
 
 export default Login;
