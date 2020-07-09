@@ -62,12 +62,10 @@ const Feed = () => {
       .catch((error) => {
         console.log(error);
       });
-
   };
   useEffect(() => {
     getPosts();
   }, []);
-
 
   /////////POST CREATE
 
@@ -87,7 +85,9 @@ const Feed = () => {
         text: '',
         title: '',
       });
-      getPosts();
+
+      const data = [...posts, body];
+      setPosts(data);
     } catch (error) {
       console.log(error);
     }
@@ -95,7 +95,6 @@ const Feed = () => {
 
   const renderPosts = posts.map((post) => {
     return (
-
       <div key={post.id}>
         <Link to={`/posts/${post.id}`}>
           <div>
@@ -107,7 +106,7 @@ const Feed = () => {
               <span>{post.votesCount} curtidas</span>
               <span>{post.commentsCount} comentários</span>
             </div>
-              <LikePost idPost={post.id}/>
+            <LikePost idPost={post.id} />
           </div>
         </Link>
         <hr />
@@ -141,7 +140,6 @@ const Feed = () => {
       </form>
 
       {renderPosts}
-
     </div>
   );
 };
