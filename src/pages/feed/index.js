@@ -3,6 +3,8 @@ import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
 
 import LikePost from '../../components/LikePost';
+import {VerifyLogged, Logout} from '../../utils/Auth';
+
 
 const baseUrl =
   'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts';
@@ -28,6 +30,8 @@ const Feed = () => {
   const [reload, setReload] = useState([]);
 
   const history = useHistory();
+
+  VerifyLogged();
 
   //////////TOKEN VALIDATION
   // useEffect(() => {
@@ -92,6 +96,17 @@ const Feed = () => {
       console.log(error);
     }
   };
+  const handleLogout =()=>{
+    try{
+      Logout();
+      history.push('/')
+
+    }catch(error){
+      console.log(error);
+
+    }
+
+  };
 
   const renderPosts = posts.map((post) => {
     return (
@@ -103,13 +118,13 @@ const Feed = () => {
 
             <h5>{post.title}</h5>
             <p>{post.text}</p>
-            <div>
-              <span>{post.votesCount} curtidas</span>
-              <span>{post.commentsCount} comentários</span>
-            </div>
-              <LikePost idPost={post.id}/>
           </div>
         </Link>
+        <div>
+              <span>{post.votesCount} curtidas</span>
+              <span>{post.commentsCount} comentários</span>
+       </div>
+              <LikePost idPost={post.id}/>
         <hr />
       </div>
     );
@@ -118,7 +133,7 @@ const Feed = () => {
   return (
     <div>
       <form onSubmit={createNewPost}>
-        <label>Escreva seu posto:</label>
+        <label>Escreva seu post:</label>
 
         <input
           name="title"
@@ -139,6 +154,9 @@ const Feed = () => {
         />
         <button>Postar</button>
       </form>
+      <div>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
 
       {renderPosts}
 
