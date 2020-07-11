@@ -1,10 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
-
 import LikePost from '../../components/LikePost';
 import {VerifyLogged, Logout} from '../../utils/Auth';
 
+
+import {
+  FeedContainer,
+  FormCreatePost,
+  PostTitleInput,
+  PostTextarea,
+  CreatePostButton,
+  PostsContainer,
+  DivUsername,
+  Title,
+  Text,
+  CardBottom,
+  VoteAndComents,
+  ButtonLikeDislike,
+} from '../feed/style';
 
 const baseUrl =
   'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts';
@@ -31,22 +45,8 @@ const Feed = () => {
 
   const history = useHistory();
 
+
   VerifyLogged();
-
-  //////////TOKEN VALIDATION
-  // useEffect(() => {
-  //   const token = window.localStorage.getItem('token');
-  //   if (token === null) {
-  //     history.push('/login');
-  //   }
-  // }, [history]);
-
-  //////////GO TO '/post:id' ROUTE
-  // const goToPostDetails = (postId) => {
-  //   let a = history.push(`/posts/${postId}`);
-
-  //   console.log(a);
-  // };
 
   ////////INPUTS VALUES
   const handleInputChange = (event) => {
@@ -110,35 +110,40 @@ const Feed = () => {
 
   const renderPosts = posts.map((post) => {
     return (
-      <div key={post.id}>
-        <Link to={`/posts/${post.id}`}>
-          <div>
-            <h4>{post.username}</h4>
+      <PostsContainer key={post.id}>
+        <DivUsername>
+          <h4>{post.username}</h4>
+        </DivUsername>
 
-            <h5>{post.title}</h5>
-            <p>{post.text}</p>
+        <Link to={`/posts/${post.id}`} style={{ textDecoration: 'none' }}>
+          <div>
+
+            <Title>{post.title}</Title>
+            <Text>{post.text}</Text>
           </div>
         </Link>
-        <div>
-              <span>{post.votesCount} curtidas</span>
-              <span>{post.commentsCount} comentários</span>
+        <CardBottom>
+          <VoteAndComents>
+            <span>{post.votesCount} curtidas</span>
+            <span>{post.commentsCount} comentários</span>
+          </VoteAndComents>
 
-       </div>
-              <LikePost idPost={post.id}/>
+          <ButtonLikeDislike>
+            <LikePost idPost={post.id} />
+          </ButtonLikeDislike>
+        </CardBottom>
+      </PostsContainer>
 
-            </div>
-
-        <hr />
-      </div>
     );
   });
 
   return (
-    <div>
-      <form onSubmit={createNewPost}>
-        <label>Escreva seu post:</label>
+    <FeedContainer>
+      <FormCreatePost onSubmit={createNewPost}>
+        <Title>Escreva seu post:</Title>
 
-        <input
+
+        <PostTitleInput
           name="title"
           value={form.title}
           onChange={handleInputChange}
@@ -147,7 +152,7 @@ const Feed = () => {
           placeholder="Título do seu post"
         />
 
-        <input
+        <PostTextarea
           name="text"
           value={form.text}
           onChange={handleInputChange}
@@ -155,14 +160,12 @@ const Feed = () => {
           required
           placeholder="Texto do seu post"
         />
-        <button>Postar</button>
-      </form>
-      <div>
-        <button onClick={handleLogout}>Logout</button>
-      </div>
 
-      {renderPosts}
-    </div>
+        <CreatePostButton>POSTAR</CreatePostButton>
+      </FormCreatePost>
+      <div>{renderPosts}</div>
+    </FeedContainer>
+
   );
 };
 
