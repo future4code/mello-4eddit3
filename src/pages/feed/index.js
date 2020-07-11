@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
 import LikePost from '../../components/LikePost';
+import {VerifyLogged, Logout} from '../../utils/Auth';
+
 
 import {
   FeedContainer,
@@ -42,6 +44,9 @@ const Feed = () => {
   const [reload, setReload] = useState([]);
 
   const history = useHistory();
+
+
+  VerifyLogged();
 
   ////////INPUTS VALUES
   const handleInputChange = (event) => {
@@ -91,6 +96,17 @@ const Feed = () => {
       console.log(error);
     }
   };
+  const handleLogout =()=>{
+    try{
+      Logout();
+      history.push('/')
+
+    }catch(error){
+      console.log(error);
+
+    }
+
+  };
 
   const renderPosts = posts.map((post) => {
     return (
@@ -101,6 +117,7 @@ const Feed = () => {
 
         <Link to={`/posts/${post.id}`} style={{ textDecoration: 'none' }}>
           <div>
+
             <Title>{post.title}</Title>
             <Text>{post.text}</Text>
           </div>
@@ -116,6 +133,7 @@ const Feed = () => {
           </ButtonLikeDislike>
         </CardBottom>
       </PostsContainer>
+
     );
   });
 
@@ -123,6 +141,7 @@ const Feed = () => {
     <FeedContainer>
       <FormCreatePost onSubmit={createNewPost}>
         <Title>Escreva seu post:</Title>
+
 
         <PostTitleInput
           name="title"
@@ -141,10 +160,12 @@ const Feed = () => {
           required
           placeholder="Texto do seu post"
         />
+
         <CreatePostButton>POSTAR</CreatePostButton>
       </FormCreatePost>
       <div>{renderPosts}</div>
     </FeedContainer>
+
   );
 };
 
