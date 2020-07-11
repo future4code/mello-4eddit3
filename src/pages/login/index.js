@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import {Form, Container, DivButtons, Header, Image, Button, BtnRegister} from './styles';
+import TextField from '@material-ui/core/TextField';
+import Logo from '../../components/img/logo-eddit.png';
 
-// import { Container } from './styles';
 
 
 const baseUrl = `https://us-central1-labenu-apis.cloudfunctions.net/labEddit/login
@@ -36,8 +38,7 @@ const Login = () => {
     };
 
     try {
-      const response = await axios.post(baseUrl, body
-      );
+      const response = await axios.post(baseUrl, body);
       window.localStorage.setItem('token', response.data.token);
       alert('Sucess');
       history.push('/posts');
@@ -45,21 +46,40 @@ const Login = () => {
       console.log(error);
       alert('Login error');
 
-
     }
+  };
+  const goToRegister =()=>{
+    history.push('/registro');
   };
 
   return (
     <>
-      <label htmlFor="login">Login</label>
-      <input type="email" name="login" onChange={handleUpdateEmail} />
-      <label htmlFor="senha">Senha</label>
-      <input type="pasword" name="senha" onChange={handleUpdatePassword} />
-      <button onClick={login}>Login</button>
-      <button>Registrar</button>
+    <Header><Image src={Logo}/></Header>
+    <Container>
+      <Form>
+        <h2>Login</h2>
+        <TextField 
+          label="email"
+          required
+          type="email"
+          name="login" 
+          onChange={handleUpdateEmail} />
+
+        <TextField
+          required
+          label="senha"
+          type="password"
+          name="senha" 
+          onChange={handleUpdatePassword} />
+        <DivButtons>
+        <BtnRegister onClick={goToRegister}>Cadastre-se</BtnRegister>
+        <Button onClick={login}>Login</Button>
+        </DivButtons>
+      </Form>
+      
+    </Container>
     </>
   );
-};
-
+}
 
 export default Login;

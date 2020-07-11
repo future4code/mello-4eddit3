@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 import { RedirectLogged } from '../../utils/Auth';
 import { RegisterUser } from '../../utils/LoginAndCreateUser';
 import useInputValue from '../../Hooks/useInputs';
-// import { Container } from './styles';
+
+import {Form, Container, Header, Image, Button} from './style';
+import TextField from '@material-ui/core/TextField';
+import Logo from '../../components/img/logo-eddit.png';
 
 function Register() {
   const [name, setName] = useInputValue('');
@@ -18,27 +21,37 @@ function Register() {
 
   return (
     <>
-      <form action="name" onSubmit={handleCreateUser}>
-        <label htmlFor="name">Nome do usuário</label>
-        <input type="text" id="name" value={name} onChange={setName} required />
-        <label htmlFor="email">E-mail</label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={setEmail}
-          required
-        />
-        <label htmlFor="password">Senha</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={setPassword}
-          required
-        />
-        <button type="submit">Cadastrar</button>
-      </form>
+      <Header><Image src={Logo}/></Header>
+      <Container>
+        <Form action="name" onSubmit={handleCreateUser}>
+          <h2>Cadastro</h2>
+          <TextField 
+           label="Nome do usuário"
+           type="text" 
+           id="name" value={name} 
+           onChange={setName} 
+           required />
+          
+          <TextField 
+           label="E-mail"
+            type="email"
+            id="email"
+            value={email}
+            onChange={setEmail}
+            required
+          />
+          
+          <TextField 
+            label="Senha"
+            type="password"
+            id="password"
+            value={password}
+            onChange={setPassword}
+            required
+          />
+          <Button type="submit">Cadastrar</Button>
+        </Form>
+      </Container>
     </>
   );
 }
