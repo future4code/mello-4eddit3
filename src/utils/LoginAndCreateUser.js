@@ -1,11 +1,12 @@
 import React from 'react';
 import api from '../services/api';
 
-export const RegisterUser = async (email, password, username) => {
+export const RegisterUser = async (username,email, password ) => {
   const body = {
+    username: username,
     email: email,
     password: password,
-    username: username,
+    
   };
 
   try {

@@ -48,7 +48,7 @@ const Login = () => {
       const response = await axios.post(baseUrl, body);
       window.localStorage.setItem('token', response.data.token);
       alert('Sucess');
-      history.push('/posts');
+      history.push('/feed');
     } catch (error) {
       alert(error);
       alert('Login error');
