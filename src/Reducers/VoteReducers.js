@@ -16,10 +16,8 @@ export const VoteReducers = (state, action) => {
       return {
         ...state,
         likeComments: action.payload.VotesCount,
-        userVotesCount: action.payload.VotesCount,
+        userVotesCount: action.payload.userVote,
       };
-
-    default:
-      return state;
   }
+  return state;
 };

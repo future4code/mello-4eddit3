@@ -1,10 +1,7 @@
 import React, { useReducer } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-
 import Routes from './routes';
-
 import GlobalStyle from './styles/global';
-
 import { initialState, VoteReducers } from './Reducers/VoteReducers';
 import VotesCommentContext from './contexts/VotesCommentContext';
 
@@ -12,14 +9,14 @@ function App() {
   const [state, dispatch] = useReducer(VoteReducers, initialState);
 
   return (
-    <BrowserRouter>
-      <VotesCommentContext.Provider
-        value={{ comments: state.comments, dispatch: dispatch }}
-      >
+    <VotesCommentContext.Provider
+      value={{ Votes: state.votes, dispatch: dispatch }}
+    >
+      <BrowserRouter>
         <Routes />
         <GlobalStyle />
-      </VotesCommentContext.Provider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </VotesCommentContext.Provider>
   );
 }
 

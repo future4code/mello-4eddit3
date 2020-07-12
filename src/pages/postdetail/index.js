@@ -1,41 +1,69 @@
+import { AiFillDislike, AiFillLike } from 'react-icons/ai';
 import React, { useEffect, useState, useReducer } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { VoteReducers, initialState } from '../../Reducers/VoteReducers';
-import { AiFillDislike, AiFillLike } from 'react-icons/ai';
 import api from '../../services/api';
-
-const token = localStorage.getItem('token');
-
-const axiosConfig = {
-  headers: {
-    Authorization: token,
-  },
-};
+import { VoteReducers, initialState } from '../../Reducers/VoteReducers';
 
 function Postdetail() {
   const [state, dispatch] = useReducer(VoteReducers, initialState);
   const [postDetail, setPostDetail] = useState({});
   const [comments, setComments] = useState([]);
-
+  const token = localStorage.getItem('token');
+  const axiosConfig = {
+    headers: {
+      Authorization: token,
+    },
+  };
   const [form, setForm] = useState({
     text: '',
   });
-
   ////////INPUTS VALUES
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setForm({ ...form, [name]: value });
   };
-
   //click Id
   const postId = useParams();
-
+  const handleLikeComment = (votes) => {
+    const body = {
+      direction: 1,
+    };
+    const commentId = votes.id;
+    if (votes.userVoteDirection === 0 || votes.userVoteDirection === -1) {
+      api.put(`${postId.id}/comment/${commentId}/vote`, body, axiosConfig);
+      console.log(votes);
+      const voteUp = (votes.votesCount += 1);
+      const userVote = (votes.userVoteDirection += 1);
+      dispatch({
+        type: 'LIKE_COMMENTS',
+        payload: { votesCount: voteUp, userVote },
+      });
+    } else {
+      console.log('foi mal irmão');
+    }
+  };
+  const handleDislikeComment = (votes) => {
+    const body = {
+      direction: -1,
+    };
+    const commentId = votes.id;
+    if (votes.userVoteDirection === 0 || votes.userVoteDirection === 1) {
+      api.put(`${postId.id}/comment/${commentId}/vote`, body, axiosConfig);
+      console.log(votes);
+      const voteDown = (votes.votesCount -= 1);
+      const userVote = (votes.userVoteDirection -= 1);
+      dispatch({
+        type: 'DISLIKE_COMMENTS',
+        payload: { votesCount: voteDown, userVote },
+      });
+    } else {
+      console.log('foi mal irmão');
+    }
+  };
   //////get details post
-
   useEffect(() => {
     getDetails(postId);
   }, []);
-
   const getDetails = async (id) => {
     // const token = localStorage.getItem('token');
     // console.log(postId);
@@ -49,15 +77,12 @@ function Postdetail() {
       alert('erro ao abrir o post');
     }
   };
-
   ////create new comment
   const createNewComment = async (event) => {
     event.preventDefault();
-
     const body = {
       text: form.text,
     };
-
     try {
       const response = await api.post(
         `/${postId.id}/comment`,
@@ -75,60 +100,13 @@ function Postdetail() {
       console.log(error);
     }
   };
-
-  const handleLikeComment = (votes) => {
-    const body = {
-      direction: 1,
-    };
-
-    const commentId = votes.id;
-
-    if (votes.userVoteDirection === 0 || votes.userVoteDirection === -1) {
-      api.put(`${postId.id}/comment/${commentId}/vote`, body, axiosConfig);
-      const voteUp = (votes.votesCount += 1);
-      const userVote = (votes.userVoteDirection += 1);
-
-      dispatch({
-        type: 'LIKE_COMMENTS',
-        payload: { votesCount: voteUp, userVote },
-      });
-    } else {
-      console.log('não foi possível votar');
-    }
-  };
-
-  const handleDislikeComment = (votes) => {
-    const body = {
-      direction: -1,
-    };
-
-    const commentId = votes.id;
-
-    if (votes.userVoteDirection === 0 || votes.userVoteDirection === 1) {
-      api.out(`${postId}/comment/${commentId}/vote`, body, axiosConfig);
-      const voteDown = (votes.votesCount -= 1);
-      const userVote = (votes.userVoteDirection -= 1);
-
-      dispatch({
-        type: 'DISLIKE_COMMENTS',
-        playload: { votesCount: voteDown, userVote },
-      });
-    } else {
-      console.log('não foi possível o dislike');
-    }
-  };
-
   const commentsList = comments.map((comment) => {
     return (
       <div>
         <li> {comment.text}</li>
-        <button onClick={handleLikeComment(comment)}>
-          <AiFillLike />
-        </button>
-
-        <button onClick={handleDislikeComment(comment)}>
-          <AiFillDislike />
-        </button>
+        <button onClick={() => handleLikeComment(comment)}>Like</button>
+        {comment.votesCount}
+        <button onClick={() => handleDislikeComment(comment)}>Dislike</button>
       </div>
     );
   });
@@ -140,10 +118,8 @@ function Postdetail() {
         <span>
           {postDetail.votesCount} Curtidas {''}
         </span>
-
         <span>{comments.length} comentários</span>
       </div>
-
       <form onSubmit={createNewComment}>
         <input
           name="text"
@@ -153,13 +129,10 @@ function Postdetail() {
           required
           placeholder="Comentário"
         />
-
         <button>ENVIAR COMENTÁRIO</button>
       </form>
-
       <div>{commentsList}</div>
     </div>
   );
 }
-
 export default Postdetail;
