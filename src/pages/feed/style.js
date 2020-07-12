@@ -128,4 +128,16 @@ export const ButtonLikeDislike = styled.div`
   padding-top: 15px;
   margin-right: 5px;
   width: 125px;
+`
+export const LogoutButton = styled.button`
+  font-size: 15px;
+  padding: 10px 20px;
+  background: #3a0d45;
+  color: #f1ecec;
+  border: none;
+  border-radius: 5px;
+  :hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 `;

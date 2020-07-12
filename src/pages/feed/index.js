@@ -17,6 +17,7 @@ import {
   CardBottom,
   VoteAndComents,
   ButtonLikeDislike,
+  LogoutButton
 } from '../feed/style';
 import { Header, Image } from '../login/styles';
 
@@ -102,6 +103,7 @@ const Feed = () => {
   const renderPosts = posts.map((post) => {
     return (
       <PostsContainer key={post.id}>
+        
         <DivUsername>
           <h4>{post.username}</h4>
         </DivUsername>
@@ -123,12 +125,15 @@ const Feed = () => {
           </ButtonLikeDislike>
         </CardBottom>
       </PostsContainer>
+
     );
   });
 
   return (
     <>
-      <Header>
+
+    <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
+    <Header>
         <Image src={Logo} />
       </Header>
       <FeedContainer>

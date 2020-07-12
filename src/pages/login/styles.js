@@ -42,6 +42,8 @@ height: 30px;
 color: white;
 background: #3A0D45;
 margin: 5px -5px 0px 5px;
+border: none;
+border-radius: 5px;
 
 `
 export const BtnRegister = styled.span`
