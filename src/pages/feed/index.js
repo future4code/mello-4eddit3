@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
 import LikePost from '../../components/LikePost';
-import {VerifyLogged, Logout} from '../../utils/Auth';
-
+import { VerifyLogged, Logout } from '../../utils/Auth';
 
 import {
   FeedContainer,
@@ -19,18 +18,17 @@ import {
   VoteAndComents,
   ButtonLikeDislike,
 } from '../feed/style';
+import { Header, Image } from '../login/styles';
 
+import Logo from '../../components/img/logo-eddit.png';
 const baseUrl =
   'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts';
 
 const axiosConfig = {
   headers: {
-    Authorization:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImV5dEdONkVTcGlVdDgweFgwbzBWIiwidXNlcm5hbWUiOiJkYXJ2YXMiLCJlbWFpbCI6InBlZHJvLmRhcnZhc0BnbWFpbC5jb20iLCJpYXQiOjE1OTQwNzQ4ODN9.di53KPU1eEqj6puLM4crxO6jacyt9-5KY_FvkahY9Ws',
+    Authorization: 'token',
   },
 };
-
-// const token = localStorage.getItem("token");
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
@@ -40,11 +38,7 @@ const Feed = () => {
     title: '',
   });
 
-  //state to update the page when creating a new post:
-  const [reload, setReload] = useState([]);
-
   const history = useHistory();
-
 
   VerifyLogged();
 
@@ -96,16 +90,13 @@ const Feed = () => {
       console.log(error);
     }
   };
-  const handleLogout =()=>{
-    try{
+  const handleLogout = () => {
+    try {
       Logout();
-      history.push('/')
-
-    }catch(error){
+      history.push('/');
+    } catch (error) {
       console.log(error);
-
     }
-
   };
 
   const renderPosts = posts.map((post) => {
@@ -117,7 +108,6 @@ const Feed = () => {
 
         <Link to={`/posts/${post.id}`} style={{ textDecoration: 'none' }}>
           <div>
-
             <Title>{post.title}</Title>
             <Text>{post.text}</Text>
           </div>
@@ -133,39 +123,41 @@ const Feed = () => {
           </ButtonLikeDislike>
         </CardBottom>
       </PostsContainer>
-
     );
   });
 
   return (
-    <FeedContainer>
-      <FormCreatePost onSubmit={createNewPost}>
-        <Title>Escreva seu post:</Title>
+    <>
+      <Header>
+        <Image src={Logo} />
+      </Header>
+      <FeedContainer>
+        <FormCreatePost onSubmit={createNewPost}>
+          <Title>Escreva seu post:</Title>
 
+          <PostTitleInput
+            name="title"
+            value={form.title}
+            onChange={handleInputChange}
+            type="text"
+            required
+            placeholder="Título do seu post"
+          />
 
-        <PostTitleInput
-          name="title"
-          value={form.title}
-          onChange={handleInputChange}
-          type="text"
-          required
-          placeholder="Título do seu post"
-        />
+          <PostTextarea
+            name="text"
+            value={form.text}
+            onChange={handleInputChange}
+            type="text"
+            required
+            placeholder="Texto do seu post"
+          />
 
-        <PostTextarea
-          name="text"
-          value={form.text}
-          onChange={handleInputChange}
-          type="text"
-          required
-          placeholder="Texto do seu post"
-        />
-
-        <CreatePostButton>POSTAR</CreatePostButton>
-      </FormCreatePost>
-      <div>{renderPosts}</div>
-    </FeedContainer>
-
+          <CreatePostButton>POSTAR</CreatePostButton>
+        </FormCreatePost>
+        <div>{renderPosts}</div>
+      </FeedContainer>
+    </>
   );
 };
 
