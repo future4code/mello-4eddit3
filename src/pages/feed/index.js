@@ -125,48 +125,13 @@ const Feed = () => {
           </ButtonLikeDislike>
         </CardBottom>
       </PostsContainer>
-<<<<<<< HEAD
-     
-=======
->>>>>>> a4669d06c9e793efe2ff214dffa24ee529a3f0b6
     );
   });
 
   return (
     <>
-<<<<<<< HEAD
-    <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
-    <FeedContainer>
-      
-      <FormCreatePost onSubmit={createNewPost}>
-        <Title>Escreva seu post:</Title>
-
-
-        <PostTitleInput
-          name="title"
-          value={form.title}
-          onChange={handleInputChange}
-          type="text"
-          required
-          placeholder="Título do seu post"
-        />
-
-        <PostTextarea
-          name="text"
-          value={form.text}
-          onChange={handleInputChange}
-          type="text"
-          required
-          placeholder="Texto do seu post"
-        />
-
-        <CreatePostButton>POSTAR</CreatePostButton>
-      </FormCreatePost>
-      <div>{renderPosts}</div>
-    </FeedContainer>
-=======
       <Header>
-        <Image src={Logo} />
+      <LogoutButton onClick={()=>handleLogout}>Logout</LogoutButton> <Image src={Logo} /> 
       </Header>
       <FeedContainer>
         <FormCreatePost onSubmit={createNewPost}>
@@ -194,7 +159,6 @@ const Feed = () => {
         </FormCreatePost>
         <div>{renderPosts}</div>
       </FeedContainer>
->>>>>>> a4669d06c9e793efe2ff214dffa24ee529a3f0b6
     </>
   );
 };

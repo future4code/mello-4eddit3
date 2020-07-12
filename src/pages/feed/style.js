@@ -130,10 +130,14 @@ export const ButtonLikeDislike = styled.div`
   width: 125px;
 `
 export const LogoutButton = styled.button`
+  margin-left: -600px;
+  margin-right: 400px;
+  margin-top: 25px;
+  margin-bottom: 25px;
   font-size: 15px;
-  padding: 10px 20px;
-  background: #3a0d45;
-  color: #f1ecec;
+  padding: 5px 3px;
+  background: #f1ecee;
+  color: #3a0d45;
   border: none;
   border-radius: 5px;
   :hover {
