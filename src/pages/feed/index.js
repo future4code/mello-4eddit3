@@ -125,14 +125,16 @@ const Feed = () => {
           </ButtonLikeDislike>
         </CardBottom>
       </PostsContainer>
+
     );
   });
 
   return (
     <>
+
       <Header>
       <LogoutButton onClick={()=>handleLogout}>Logout</LogoutButton> <Image src={Logo} /> 
-      </Header>
+      <Header/>
       <FeedContainer>
         <FormCreatePost onSubmit={createNewPost}>
           <Title>Escreva seu post:</Title>

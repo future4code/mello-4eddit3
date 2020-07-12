@@ -130,6 +130,7 @@ export const ButtonLikeDislike = styled.div`
   width: 125px;
 `
 export const LogoutButton = styled.button`
+
   margin-left: -600px;
   margin-right: 400px;
   margin-top: 25px;
