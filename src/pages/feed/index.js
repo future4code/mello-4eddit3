@@ -18,6 +18,7 @@ import {
   CardBottom,
   VoteAndComents,
   ButtonLikeDislike,
+  LogoutButton
 } from '../feed/style';
 
 const baseUrl =
@@ -111,6 +112,7 @@ const Feed = () => {
   const renderPosts = posts.map((post) => {
     return (
       <PostsContainer key={post.id}>
+        
         <DivUsername>
           <h4>{post.username}</h4>
         </DivUsername>
@@ -133,12 +135,15 @@ const Feed = () => {
           </ButtonLikeDislike>
         </CardBottom>
       </PostsContainer>
-
+     
     );
   });
 
   return (
+    <>
+    <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
     <FeedContainer>
+      
       <FormCreatePost onSubmit={createNewPost}>
         <Title>Escreva seu post:</Title>
 
@@ -165,7 +170,7 @@ const Feed = () => {
       </FormCreatePost>
       <div>{renderPosts}</div>
     </FeedContainer>
-
+    </>
   );
 };
 

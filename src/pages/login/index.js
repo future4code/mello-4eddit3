@@ -43,7 +43,7 @@ const Login = () => {
       alert('Sucess');
       history.push('/posts');
     } catch (error) {
-      console.log(error);
+      alert(error);
       alert('Login error');
 
     }

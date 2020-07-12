@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { RedirectLogged } from '../../utils/Auth';
 import { RegisterUser } from '../../utils/LoginAndCreateUser';
 import useInputValue from '../../Hooks/useInputs';
+import { useHistory } from 'react-router-dom';
 
 import {Form, Container, Header, Image, Button} from './style';
 import TextField from '@material-ui/core/TextField';
@@ -12,11 +13,13 @@ function Register() {
   const [name, setName] = useInputValue('');
   const [email, setEmail] = useInputValue('');
   const [password, setPassword] = useInputValue('');
+  const history = useHistory();
 
   RedirectLogged();
   const handleCreateUser = (e) => {
     e.preventDefault();
     RegisterUser(name, email, password);
+    history.push('/');
   };
 
   return (
