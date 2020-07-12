@@ -132,10 +132,9 @@ const Feed = () => {
   return (
     <>
 
-    <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
-    <Header>
-        <Image src={Logo} />
-      </Header>
+      <Header>
+      <LogoutButton onClick={()=>handleLogout}>Logout</LogoutButton> <Image src={Logo} /> 
+      <Header/>
       <FeedContainer>
         <FormCreatePost onSubmit={createNewPost}>
           <Title>Escreva seu post:</Title>
