@@ -15,6 +15,8 @@ export const FormCreatePost = styled.div`
   align-items: center;
   justify-content: space-around;
   margin: 50px;
+  margin-top: 125px;
+
   width: 450px;
   height: 500px;
   background: #f1ecec;
@@ -24,6 +26,26 @@ export const FormCreatePost = styled.div`
   box-shadow: 5px 5px 5px rgba(50, 50, 50, 0.5);
 `;
 
+export const PostsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 450px;
+
+  margin-top: 125px;
+
+  background: #f1ecec;
+  margin-left: 650px;
+  border-radius: 5px;
+  text-align: center;
+  flex-wrap: wrap;
+
+  :hover {
+    box-shadow: 10px 5px 5px rgba(50, 50, 50, 0.5);
+    transform: scale(1.1);
+  }
+`;
 export const PostTitleInput = styled.input`
   border-radius: 5px;
   border: none;
@@ -49,33 +71,13 @@ export const PostTextarea = styled.textarea`
 `;
 export const CreatePostButton = styled.button`
   font-size: 20px;
-  padding: 15px 25px;
+  padding: 10px 15px;
   background: #3a0d45;
   color: #f1ecec;
   border: none;
   border-radius: 5px;
   :hover {
     cursor: pointer;
-    transform: scale(1.1);
-  }
-`;
-export const PostsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-
-  width: 450px;
-  margin: 50px;
-
-  background: #f1ecec;
-  margin-left: 650px;
-  border-radius: 5px;
-  text-align: center;
-  flex-wrap: wrap;
-
-  :hover {
-    box-shadow: 10px 5px 5px rgba(50, 50, 50, 0.5);
     transform: scale(1.1);
   }
 `;
