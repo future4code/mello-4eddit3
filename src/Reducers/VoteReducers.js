@@ -1,23 +1,25 @@
 export const initialState = {
-  likeComments: 0,
-  dislikeComments: 0,
-  likePosts: 0,
-  dislikePosts: 0,
+  likeComments: {},
+  userVotesCount: {},
 };
 
 export const VoteReducers = (state, action) => {
   switch (action.type) {
-    case 'LIKE_COMMENTS':
-      return { ...state, likeComments: state.likeComments + 1 };
+    case 'LIKE_COMMENT':
+      return {
+        ...state,
+        likeComments: action.payload.VotesCount,
+        userVotesCount: action.payload.userVote,
+      };
 
-    case 'DISLIKE_COMMENTS':
-      return { ...state, dislikeComments: state.dislikeComments + 1 };
+    case 'DISLIKE_COMMENT':
+      return {
+        ...state,
+        likeComments: action.payload.VotesCount,
+        userVotesCount: action.payload.VotesCount,
+      };
 
-    case 'LIKE_POSTS':
-      return { ...state, likePosts: state.likePosts + 1 };
-
-    case 'DISLIKE_POSTS':
-      return { ...state, dislikePosts: state.dislikePosts + 1 };
+    default:
+      return state;
   }
-  return state;
 };

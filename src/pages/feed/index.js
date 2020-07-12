@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
-import axios from 'axios';
+import Api from '../../services/api';
 import LikePost from '../../components/LikePost';
 import { VerifyLogged, Logout } from '../../utils/Auth';
 
@@ -17,23 +17,21 @@ import {
   CardBottom,
   VoteAndComents,
   ButtonLikeDislike,
-  LogoutButton
+  LogoutButton,
 } from '../feed/style';
 import { Header, Image } from '../login/styles';
-
 import Logo from '../../components/img/logo-eddit.png';
-const baseUrl =
-  'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts';
+
+const token = localStorage.getItem('token');
 
 const axiosConfig = {
   headers: {
-    Authorization: 'token',
+    Authorization: token,
   },
 };
 
 const Feed = () => {
   const [posts, setPosts] = useState([]);
-
   const [form, setForm] = useState({
     text: '',
     title: '',
@@ -52,8 +50,7 @@ const Feed = () => {
   ////////GET POSTS
 
   const getPosts = () => {
-    axios
-      .get(`${baseUrl}`, axiosConfig)
+    Api.get('', axiosConfig)
       .then((response) => {
         setPosts(response.data.posts);
         console.log(response.data.posts);
@@ -77,7 +74,7 @@ const Feed = () => {
     };
 
     try {
-      const response = await axios.post(`${baseUrl}`, body, axiosConfig);
+      const response = await Api.post('', body, axiosConfig);
       // console.log(response);
       alert('Post criado com sucesso!');
       setForm({
@@ -103,7 +100,6 @@ const Feed = () => {
   const renderPosts = posts.map((post) => {
     return (
       <PostsContainer key={post.id}>
-        
         <DivUsername>
           <h4>{post.username}</h4>
         </DivUsername>
@@ -125,15 +121,13 @@ const Feed = () => {
           </ButtonLikeDislike>
         </CardBottom>
       </PostsContainer>
-
     );
   });
 
   return (
     <>
-
-    <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
-    <Header>
+      <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
+      <Header>
         <Image src={Logo} />
       </Header>
       <FeedContainer>

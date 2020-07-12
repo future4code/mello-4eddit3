@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import axios from 'axios';
+import { VoteReducers, initialState } from '../../Reducers/VoteReducers';
+import { AiFillDislike, AiFillLike } from 'react-icons/ai';
+import api from '../../services/api';
+
+const token = localStorage.getItem('token');
 
 const axiosConfig = {
   headers: {
-    Authorization:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImV5dEdONkVTcGlVdDgweFgwbzBWIiwidXNlcm5hbWUiOiJkYXJ2YXMiLCJlbWFpbCI6InBlZHJvLmRhcnZhc0BnbWFpbC5jb20iLCJpYXQiOjE1OTQwNzQ4ODN9.di53KPU1eEqj6puLM4crxO6jacyt9-5KY_FvkahY9Ws',
+    Authorization: token,
   },
 };
 
-const baseUrl =
-  'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts';
-
 function Postdetail() {
+  const [state, dispatch] = useReducer(VoteReducers, initialState);
   const [postDetail, setPostDetail] = useState({});
   const [comments, setComments] = useState([]);
 
@@ -29,15 +30,6 @@ function Postdetail() {
   //click Id
   const postId = useParams();
 
-  // // ///////view tha page just wtith token [TIRAR ISSO]
-  // const history = useHistory();
-  // useEffect(() => {
-  //   const token = window.localStorage.getItem('token');
-  //   if (token === null) {
-  //     history.push('/login');
-  //   }
-  // }, [history]);
-
   //////get details post
 
   useEffect(() => {
@@ -48,7 +40,7 @@ function Postdetail() {
     // const token = localStorage.getItem('token');
     // console.log(postId);
     try {
-      const response = await axios.get(`${baseUrl}/${postId.id}`, axiosConfig);
+      const response = await api.get(`/${postId.id}`, axiosConfig);
       console.log('a');
       setPostDetail(response.data.post);
       setComments(response.data.post.comments);
@@ -58,7 +50,7 @@ function Postdetail() {
     }
   };
 
-  ////creaste new comment
+  ////create new comment
   const createNewComment = async (event) => {
     event.preventDefault();
 
@@ -67,8 +59,8 @@ function Postdetail() {
     };
 
     try {
-      const response = await axios.post(
-        `${baseUrl}/${postId.id}/comment`,
+      const response = await api.post(
+        `/${postId.id}/comment`,
         body,
         axiosConfig
       );
@@ -84,10 +76,59 @@ function Postdetail() {
     }
   };
 
+  const handleLikeComment = (votes) => {
+    const body = {
+      direction: 1,
+    };
+
+    const commentId = votes.id;
+
+    if (votes.userVoteDirection === 0 || votes.userVoteDirection === -1) {
+      api.put(`${postId.id}/comment/${commentId}/vote`, body, axiosConfig);
+      const voteUp = (votes.votesCount += 1);
+      const userVote = (votes.userVoteDirection += 1);
+
+      dispatch({
+        type: 'LIKE_COMMENTS',
+        payload: { votesCount: voteUp, userVote },
+      });
+    } else {
+      console.log('não foi possível votar');
+    }
+  };
+
+  const handleDislikeComment = (votes) => {
+    const body = {
+      direction: -1,
+    };
+
+    const commentId = votes.id;
+
+    if (votes.userVoteDirection === 0 || votes.userVoteDirection === 1) {
+      api.out(`${postId}/comment/${commentId}/vote`, body, axiosConfig);
+      const voteDown = (votes.votesCount -= 1);
+      const userVote = (votes.userVoteDirection -= 1);
+
+      dispatch({
+        type: 'DISLIKE_COMMENTS',
+        playload: { votesCount: voteDown, userVote },
+      });
+    } else {
+      console.log('não foi possível o dislike');
+    }
+  };
+
   const commentsList = comments.map((comment) => {
     return (
       <div>
         <li> {comment.text}</li>
+        <button onClick={handleLikeComment(comment)}>
+          <AiFillLike />
+        </button>
+
+        <button onClick={handleDislikeComment(comment)}>
+          <AiFillDislike />
+        </button>
       </div>
     );
   });
