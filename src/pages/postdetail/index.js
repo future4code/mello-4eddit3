@@ -162,7 +162,7 @@ function Postdetail() {
   return (
     <>
       <Header>
-        <LogoutButton onClick={() => handleLogout}>Logout</LogoutButton>{' '}
+        <LogoutButton onClick={handleLogout}>Logout</LogoutButton>{' '}
         <Image src={Logo} />
       </Header>
       <FeedContainer></FeedContainer>
