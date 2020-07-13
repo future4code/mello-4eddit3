@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import axios from 'axios';
-
-const axiosConfig = {
-  headers: {
-    Authorization:
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImV5dEdONkVTcGlVdDgweFgwbzBWIiwidXNlcm5hbWUiOiJkYXJ2YXMiLCJlbWFpbCI6InBlZHJvLmRhcnZhc0BnbWFpbC5jb20iLCJpYXQiOjE1OTQwNzQ4ODN9.di53KPU1eEqj6puLM4crxO6jacyt9-5KY_FvkahY9Ws',
-  },
-};
-
-const baseUrl =
-  'https://us-central1-labenu-apis.cloudfunctions.net/labEddit/posts';
+import api from '../../services/api';
+import { VoteReducers, initialState } from '../../Reducers/VoteReducers';
 
 function Postdetail() {
+  const [state, dispatch] = useReducer(VoteReducers, initialState);
   const [postDetail, setPostDetail] = useState({});
   const [comments, setComments] = useState([]);
+
+  const token = localStorage.getItem('token');
+
+  const axiosConfig = {
+    headers: {
+      Authorization: token,
+    },
+  };
 
   const [form, setForm] = useState({
     text: '',
@@ -29,14 +29,45 @@ function Postdetail() {
   //click Id
   const postId = useParams();
 
-  // // ///////view tha page just wtith token [TIRAR ISSO]
-  // const history = useHistory();
-  // useEffect(() => {
-  //   const token = window.localStorage.getItem('token');
-  //   if (token === null) {
-  //     history.push('/login');
-  //   }
-  // }, [history]);
+  const handleLikeComment = (votes) => {
+    const body = {
+      direction: 1,
+    };
+
+    const commentId = votes.id;
+    if (votes.userVoteDirection === 0 || votes.userVoteDirection === -1) {
+      api.put(`${postId.id}/comment/${commentId}/vote`, body, axiosConfig);
+      console.log(votes);
+      const voteUp = (votes.votesCount += 1);
+      const userVote = (votes.userVoteDirection += 1);
+      dispatch({
+        type: 'LIKE_COMMENTS',
+        payload: { votesCount: voteUp, userVote },
+      });
+    } else {
+      console.log('foi mal irmão');
+    }
+  };
+
+  const handleDislikeComment = (votes) => {
+    const body = {
+      direction: -1,
+    };
+
+    const commentId = votes.id;
+    if (votes.userVoteDirection === 0 || votes.userVoteDirection === 1) {
+      api.put(`${postId.id}/comment/${commentId}/vote`, body, axiosConfig);
+      console.log(votes);
+      const voteDown = (votes.votesCount -= 1);
+      const userVote = (votes.userVoteDirection -= 1);
+      dispatch({
+        type: 'DISLIKE_COMMENTS',
+        payload: { votesCount: voteDown, userVote },
+      });
+    } else {
+      console.log('foi mal irmão');
+    }
+  };
 
   //////get details post
 
@@ -48,7 +79,7 @@ function Postdetail() {
     // const token = localStorage.getItem('token');
     // console.log(postId);
     try {
-      const response = await axios.get(`${baseUrl}/${postId.id}`, axiosConfig);
+      const response = await api.get(`/${postId.id}`, axiosConfig);
       console.log('a');
       setPostDetail(response.data.post);
       setComments(response.data.post.comments);
@@ -58,7 +89,7 @@ function Postdetail() {
     }
   };
 
-  ////creaste new comment
+  ////create new comment
   const createNewComment = async (event) => {
     event.preventDefault();
 
@@ -67,8 +98,8 @@ function Postdetail() {
     };
 
     try {
-      const response = await axios.post(
-        `${baseUrl}/${postId.id}/comment`,
+      const response = await api.post(
+        `/${postId.id}/comment`,
         body,
         axiosConfig
       );
@@ -88,6 +119,9 @@ function Postdetail() {
     return (
       <div>
         <li> {comment.text}</li>
+        <button onClick={() => handleLikeComment(comment)}>Like</button>
+        {comment.votesCount}
+        <button onClick={() => handleDislikeComment(comment)}>Dislike</button>
       </div>
     );
   });

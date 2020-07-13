@@ -6,7 +6,7 @@ export const VerifyLogged = () => {
   const isLogged = localStorage.getItem('token');
   useEffect(() => {
     if (isLogged === null) {
-      history.push('/login');
+      history.push('/');
     }
   }, []);
 };
@@ -20,6 +20,6 @@ export const RedirectLogged = () => {
     }
   }, []);
 };
-export const Logout =()=>{
+export const Logout = () => {
   const destructToken = localStorage.removeItem('token');
-  };
+};
