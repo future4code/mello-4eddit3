@@ -112,6 +112,9 @@ _PS: Caso utilize o NPM, apague o arquivo `yarn.lock` para ter todas as dependê
 
 ---
 
+## 🚀 Projeto no ar
+http://4eddit.tkj.surge.sh/
+
 <h4 align="center">
   Feito com ❤️ por Jonatan Machado,Késsia Lopes e Tatiana Fischer 👋️
 </h4>
