@@ -2,6 +2,24 @@ import React, { useEffect, useState, useReducer } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import api from '../../services/api';
 import { VoteReducers, initialState } from '../../Reducers/VoteReducers';
+import {
+  FeedContainer,
+  FormCreatePost,
+  PostTitleInput,
+  PostTextarea,
+  CreatePostButton,
+  PostsContainer,
+  DivUsername,
+  Title,
+  Text,
+  CardBottom,
+  VoteAndComents,
+  ButtonLikeDislike,
+  LogoutButton,
+} from '../feed/style';
+import { Header, Image } from '../login/styles';
+import Logo from '../../components/img/logo-eddit.png';
+import { Logout } from '../../utils/Auth';
 
 function Postdetail() {
   const [state, dispatch] = useReducer(VoteReducers, initialState);
@@ -15,10 +33,20 @@ function Postdetail() {
       Authorization: token,
     },
   };
+  const history = useHistory();
 
   const [form, setForm] = useState({
     text: '',
   });
+
+  const handleLogout = () => {
+    try {
+      Logout();
+      history.push('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   ////////INPUTS VALUES
   const handleInputChange = (event) => {
@@ -117,41 +145,56 @@ function Postdetail() {
 
   const commentsList = comments.map((comment) => {
     return (
-      <div>
-        <li> {comment.text}</li>
-        <button onClick={() => handleLikeComment(comment)}>Like</button>
-        {comment.votesCount}
-        <button onClick={() => handleDislikeComment(comment)}>Dislike</button>
-      </div>
+      <PostsContainer key={comment.id}>
+        <Text> {comment.text}</Text>
+        <CardBottom>
+          <ButtonLikeDislike>
+            <button onClick={() => handleLikeComment(comment)}>Like</button>
+            {comment.votesCount}
+            <button onClick={() => handleDislikeComment(comment)}>
+              Dislike
+            </button>
+          </ButtonLikeDislike>
+        </CardBottom>
+      </PostsContainer>
     );
   });
   return (
-    <div>
+    <>
+      <Header>
+        <LogoutButton onClick={() => handleLogout}>Logout</LogoutButton>{' '}
+        <Image src={Logo} />
+      </Header>
+      <FeedContainer></FeedContainer>
       <div>
-        <h4>{postDetail.username}</h4>
-        <h5>{postDetail.text}</h5>
-        <span>
-          {postDetail.votesCount} Curtidas {''}
-        </span>
+        <div>
+          <h4>{postDetail.username}</h4>
+          <h5>{postDetail.text}</h5>
+          <span>
+            {postDetail.votesCount} Curtidas {''}
+          </span>
 
-        <span>{comments.length} comentários</span>
+          <span>{comments.length} comentários</span>
+        </div>
+
+        <FeedContainer>
+          <FormCreatePost onSubmit={createNewComment}>
+            <PostTitleInput
+              name="text"
+              value={form.text}
+              onChange={handleInputChange}
+              type="text"
+              required
+              placeholder="Comentário"
+            />
+
+            <CreatePostButton>ENVIAR COMENTÁRIO</CreatePostButton>
+          </FormCreatePost>
+
+          <div>{commentsList}</div>
+        </FeedContainer>
       </div>
-
-      <form onSubmit={createNewComment}>
-        <input
-          name="text"
-          value={form.text}
-          onChange={handleInputChange}
-          type="text"
-          required
-          placeholder="Comentário"
-        />
-
-        <button>ENVIAR COMENTÁRIO</button>
-      </form>
-
-      <div>{commentsList}</div>
-    </div>
+    </>
   );
 }
 
