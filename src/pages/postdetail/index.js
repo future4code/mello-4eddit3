@@ -41,7 +41,7 @@ function Postdetail() {
 
   const handleLogout = () => {
     try {
-      Logout();
+      localStorage.clear();
       history.push('/');
     } catch (error) {
       console.log(error);

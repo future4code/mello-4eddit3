@@ -90,12 +90,8 @@ const Feed = () => {
     }
   };
   const handleLogout = () => {
-    try {
-      Logout();
-      history.push('/');
-    } catch (error) {
-      console.log(error);
-    }
+    localStorage.clear();
+    history.push('/');
   };
 
   const renderPosts = posts.map((post) => {
@@ -128,7 +124,7 @@ const Feed = () => {
   return (
     <>
       <Header>
-        <LogoutButton onClick={() => handleLogout}>Logout</LogoutButton>{' '}
+        <LogoutButton onClick={handleLogout}>Logout</LogoutButton>{' '}
         <Image src={Logo} />
       </Header>
       <FeedContainer>

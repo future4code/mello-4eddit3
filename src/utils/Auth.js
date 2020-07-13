@@ -20,6 +20,3 @@ export const RedirectLogged = () => {
     }
   }, []);
 };
-export const Logout = () => {
-  const destructToken = localStorage.removeItem('token');
-};

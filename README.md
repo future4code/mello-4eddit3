@@ -1,68 +1,117 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h1 align="center">
+  🤖 Front-end Web  4eddit 💻
+</h1>
+<p align="center">
+  <img alt="GitHub language count" src="https://img.shields.io/github/languages/count/future4code/mello-4eddit3">
 
-## Available Scripts
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/future4code/mello-4eddit3?logo=javascript">
 
-In the project directory, you can run:
+  <img alt="GitHub repo size in bytes" src="https://img.shields.io/github/repo-size/future4code/mello-4eddit3?color=green">
 
-### `yarn start`
+  <br>
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+  <img alt="GitHub code size in bytes" src="https://img.shields.io/github/last-commit/future4code/mello-4eddit3">
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+</p>
 
-### `yarn test`
+---
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<p align="center">
+  <img alt="Gif da Aplicação" src="./src/assets/todolist.gif" />
+</p>
 
-### `yarn build`
+---
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Indice
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+- :rocket: [Sobre o Projeto](#rocket-sobre-o-projeto)
+- 👨‍💻️ [Tecnogias utilizadas](#%EF%B8%8F-tecnogias-utilizadas)
+- 📦️ [Como utilizar o projeto](#%EF%B8%8F-como-utilizar-o-projeto)
+- 🤔️ [Como contribuir](#%EF%B8%8F-como-contribuir)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `yarn eject`
+## :rocket: Sobre o Projeto
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+A proposta do **4eddit** da [Labenu](https://labenu.com.br/) é desenvolver uma aplicação que simule uma rede estilo reddit.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Este projeto de Front-end Web foi desenvolvido em ReactJS com JS.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+---
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 👨‍💻️ Tecnogias utilizadas
 
-## Learn More
+O projeto foi desenvolvido utilizando as seguintes tecnologias:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- [ReactJS](https://reactjs.org/)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Dependências
 
-### Code Splitting
+- [React Router DOM](https://github.com/ReactTraining/react-router#readme)
+- :nail_care: [Styled Components](https://styled-components.com/)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### Padronização de código
 
-### Analyzing the Bundle Size
+- [ESLint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
+- :mouse: [Editor Config](https://editorconfig.org/)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### IDE
 
-### Making a Progressive Web App
+- [Visual Studio Code](https://code.visualstudio.com/)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+---
 
-### Advanced Configuration
+## 📦️ Como utilizar o projeto
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+Para copiar o projeto, utilize os comandos:
 
-### Deployment
+```bash
+  # Clonar o repositório
+  ❯ git clone https://github.com/future4code/mello-4eddit3.git
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+  # Entrar no diretório
+  ❯ cd mello-4eddit3
+```
 
-### `yarn build` fails to minify
+Para instalar as dependências e iniciar o projeto, você pode utilizar o Yarn ou NPM:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+**Utilizando yarn**
+
+```bash
+  # Instalar as dependências
+  ❯ yarn
+
+  # Iniciar o projeto
+  ❯ yarn dev:server
+```
+
+**Utilizando npm**
+
+_PS: Caso utilize o NPM, apague o arquivo `yarn.lock` para ter todas as dependências instaladas da melhor forma._
+
+```bash
+  # Instalar as dependências
+  ❯ npm install
+
+  # Iniciar o projeto
+  ❯ npm start
+```
+
+---
+
+## 🤔️ Como contribuir
+
+1. Faça o `fork` deste repositório
+2. Crie uma branch com sua feature:
+   - `$ git checkout -b minha_feature`
+3. Confirme sua branch:
+   - `$ git commit -m "feature: Meu novo recurso"`
+4. Envie sua branch:
+   - `$ git push origin minha_feature`
+
+---
+
+<h4 align="center">
+  Feito com ❤️ por Jonatan Machado,Késsia Lopes e Tatiana Fischer 👋️
+</h4>
